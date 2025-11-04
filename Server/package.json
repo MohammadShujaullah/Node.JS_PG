@@ -1,0 +1,15 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "my first HTTP server made by my own",
+  "main": "index.js",
+  "scripts": {
+    "start": " node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "url": "^0.11.4"
+  }
+}
