@@ -1,48 +1,25 @@
 //import http module
 const http=require("http");
   
-const fs=require("fs");
-
-const url=require("url");
+ 
 
 const express=require("express");
 
 
-function handler(req,res){    //req=request,  res=response
+ const app=express();
 
-      if(req.url==="favicon.ico"){
-        res.end();   // ye favicon ki request ko ignore krne k liye h ta k baar baar log na bnay
-      }
-      console.log(req.url);
+ app.get("/",(req,res)=>{
+  return res.send( `hello ${req.query.name} your age is ${req.query.age}` );
+ });
 
-      const myurl=url.parse(req.url);
-      console.log(myurl.pathname);
+ app.get("/about",(req,res)=>{
+  return res.send("hello form about page"+"hey"+req.query.name+req.query.age);
 
-    const log= `${Date.now()}:${req.method} ${req.url} New Req recieved\n`;
-     fs.appendFile("log.txt",log,(err,data)=>{     // file bnne ke baad response wha jae.
-         switch(req.url){
-            case '/':res.end("this is home "); 
-            break;
-            case '/about':
-            const username=myurl.query.username;
-         
-            res.end(`hi${username}`);
-            break;
-            case '/signup':
-              if(req.method==="GET")res.end("this is signup page");
-              else if(req.method==="POST")
-                //db Query
-              res.end("data saved successfully");
-              break;
-            default :res.end("404 not found");
-         }
-     })
-    
-}
+ });
 
 
 //create server object
-const myserver=http.createServer(handler);
+const myserver=http.createServer(app);
 
 
 //server listening on port 8000
