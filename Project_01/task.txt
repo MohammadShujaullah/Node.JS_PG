@@ -1,0 +1,19 @@
+REST API-JSON
+
+GET/api/USER-get list of user in JSON
+
+GET/api/USER/1-get the user with ID 1 IN JSON
+GET/USER/2-get the user with ID 2 IN JASON
+
+/api/user/1or2       can be acheived by 
+Dynamic path parameter
+/api/user/:id
+:id-> means that this is a variable , and can be changed 
+
+
+
+POST/api/USER-create a new user in json
+
+PATCH/USER/1-edit the user with id 1 in json
+
+DELETE/USER/1- delete the user with id 1 in json
