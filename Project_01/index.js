@@ -59,7 +59,26 @@ app.delete("/api/user/:id", (req, res) => {
 })
 
 
+// you do   also using app.route(), when the route of 2 or more is same 
+app.
+    route("/api/user/:id")
+    .get("/api/user/:id", (req, res) => {
+        const id = req.params.id;     // it give a string , not a number
 
+        const user = users.map((user) => {
+            if (user.id == id) {
+                return res.json(user);
+            }
+        })
+    })
+    .patch("/api/user/:id", (req, res) => {
+        //TODO:UPDATE THE USER WITH ID
+        return res.json({ status: "pending" })
+    })
+    .delete("/api/user/:id", (req, res) => {
+        //TODO:DELETE THE USER WITH ID
+        return res.json({ status: "pending" })
+    })
 
 
 
