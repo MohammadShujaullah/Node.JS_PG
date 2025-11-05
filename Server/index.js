@@ -1,5 +1,5 @@
 //import http module
-const http=require("http");
+//const http=require("http");
   
  
 
@@ -18,11 +18,13 @@ const express=require("express");
  });
 
 
+app.listen(8000,()=>{console.log("my server is started")})
+
 //create server object
-const myserver=http.createServer(app);
+// const myserver=http.createServer(app);
 
 
-//server listening on port 8000
-myserver.listen(8000,()=>{
-    console.log("my server is started");
-})
+// //server listening on port 8000
+// myserver.listen(8000,()=>{
+//     console.log("my server is started");
+// })
