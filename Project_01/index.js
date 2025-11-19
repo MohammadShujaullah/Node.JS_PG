@@ -1,9 +1,14 @@
 const express = require("express");
+const fs = require("fs");
 
-const users = require("./MOCK_DATA.json");
+let users = require("./MOCK_DATA.json");
 
 const app = express();
 const PORT = 8000;
+
+// middleware to parse json data
+app.use(express.urlencoded({ extended: false }));   // jo bhi data ayega, usko body main daalne ka kaam krta ha
+
 
 app.get("/", (req, res) => {
     res.end("hello form home page");
@@ -42,43 +47,68 @@ app.get("/api/user/:id", (req, res) => {
     })
 })
 
-app.post("/api/user", (req, res) => {
-    //TODO:ADD NEW USER
+app.post("/api/users", (req, res) => {
+    const body = req.body;  // jo bhi data ham ,fronted main send krte han , wo ismain available hota ha 
 
-    return res.json({ status: "pending" });
+    users.push({ ...body, id: users.length + 1 });
+
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+        return res.json({ satus: "success" });
+    })
+    console.log("Body", body);
+
+
 })
 
+
+
 app.patch("/api/user/:id", (req, res) => {
-    //TODO:UPDATE THE USER WITH ID
-    return res.json({ status: "pending" })
+
+    const id = req.params.id;
+    const body = req.body;
+    users = users.map((user) => {
+        if (user.id == id) {
+            return { ...user, ...body }
+        }
+
+        return users;
+    })
 })
 
 app.delete("/api/user/:id", (req, res) => {
-    //TODO:DELETE THE USER WITH ID
-    return res.json({ status: "pending" })
+
+    users = users.filter((us) => us.id != req.params.id);
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+        return res.json({ status: "success" })
+    })
+
 })
 
 
-// you do   also using app.route(), when the route of 2 or more is same 
-app.
-    route("/api/user/:id")
-    .get("/api/user/:id", (req, res) => {
-        const id = req.params.id;     // it give a string , not a number
+// when i am adding or Post the data , it is not getting ,because they dont know the type of datawe are sending 
+// so we use middleware or Plugin, for this work
 
-        const user = users.map((user) => {
-            if (user.id == id) {
-                return res.json(user);
-            }
-        })
-    })
-    .patch("/api/user/:id", (req, res) => {
-        //TODO:UPDATE THE USER WITH ID
-        return res.json({ status: "pending" })
-    })
-    .delete("/api/user/:id", (req, res) => {
-        //TODO:DELETE THE USER WITH ID
-        return res.json({ status: "pending" })
-    })
+
+// you do   also using app.route(), when the route of 2 or more is same 
+// app.
+//     route("/api/user/:id")
+//     .get("/api/user/:id", (req, res) => {
+//         const id = req.params.id;     // it give a string , not a number
+
+//         const user = users.map((user) => {
+//             if (user.id == id) {
+//                 return res.json(user);
+//             }
+//         })
+//     })
+//     .patch("/api/user/:id", (req, res) => {
+//         //TODO:UPDATE THE USER WITH ID
+//         return res.json({ status: "pending" })
+//     })
+//     .delete("/api/user/:id", (req, res) => {
+//         //TODO:DELETE THE USER WITH ID
+//         return res.json({ status: "pending" })
+//     })
 
 
 
