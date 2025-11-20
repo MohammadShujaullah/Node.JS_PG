@@ -6,17 +6,40 @@ let users = require("./MOCK_DATA.json");
 const app = express();
 const PORT = 8000;
 
+
+//concept of midlleware in express js---------
+
 // middleware to parse json data
+//1st midleware
 app.use(express.urlencoded({ extended: false }));   // jo bhi data ayega, usko body main daalne ka kaam krta ha
+
+//2nd midleware
+app.use((req,res,next)=>{
+     fs.appendFile("Log2.txt",`\n${Date.now()}:${req.method}:${req.path}`,(err,data)=> next());
+    
+   
+})
+// 3rd midleware
+app.use((req,res,next)=>{
+    console.log("hello from the midddle ware 3");
+    
+     next();
+})
+
+
+
+
 
 
 app.get("/", (req, res) => {
+  res.setHeader("Content-Type", "shujaullah");
     res.end("hello form home page");
 
 });
 
 // 1st work
 app.get("/api/users", (req, res) => {    // this for getting all user in JSON format 
+     console.log("X-content","shuja_ullah");  // always start the custom header with capital X, for good practices
     return res.json(users);
 });
 
@@ -52,8 +75,12 @@ app.post("/api/users", (req, res) => {
 
     users.push({ ...body, id: users.length + 1 });
 
+    if(!body || !body.first_name || !body.last_name || !body.email || !body.gender ||!body.job_title){
+        return res.status(400).json({msg:`all field are req.....`});
+    }
+
     fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
-        return res.json({ satus: "success" });
+        return res.status(201).json({ satus: "success" });
     })
     console.log("Body", body);
 
