@@ -1,0 +1,4 @@
+   schema-define the structure
+     schema-model
+
+     using model we do the CRUD operation
