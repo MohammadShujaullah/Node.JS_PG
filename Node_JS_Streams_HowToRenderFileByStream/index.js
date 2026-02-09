@@ -14,12 +14,18 @@ fs.createReadStream("./index.html").pipe(zlib.createGzip()).pipe(fs.createWriteS
 
 
 app.get('/', (req, res) => {
+
+
     const stream = fs.createReadStream("./index.html", "utf-8");
 
     stream.on("data", (chunk) => res.write(chunk));
 
     stream.on("end", () => res.end());
 
+})
+
+app.get("/server",(req,res)=>{
+    return res.json(`hello from express server ${process.pid}`);
 })
 
 app.listen(PORT, () => {
