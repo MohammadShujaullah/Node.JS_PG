@@ -73,3 +73,22 @@ app.listen(PORT, () => {
     console.log("server is running on the port " + PORT);
 
 });
+
+
+
+
+/*
+ how frontend is connected with the backend and databases
+ 
+
+React (Browser)
+   |
+   |  HTTP request (fetch / axios)
+   ↓
+Node.js (Express)
+   |
+   |  Route → Controller → Model
+   ↓
+Database
+
+*/
